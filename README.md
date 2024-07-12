@@ -1,7 +1,16 @@
-# Demo Consumer IoT Solution 
+# IoT Data Solution
+
+## Demo Consumer IoT Solution Using Csv as source and with InMemory data holder.
+
+
+
 [![VoIS ConsumerIoT CI [Build]](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/maven.yml/badge.svg)](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/maven.yml)[![Deploy JaCoCo Report](https://github.com/gsmahajan/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml/badge.svg)](https://github.com/gsmahajan/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml)
 
-## Prerequisite 
+[![Java Code Coverage Report](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml/badge.svg)](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml)
+
+
+
+### Prerequisite 
 * Maven 3.9.8
 * Java 17
 * Intellij Ultimate/Community 2024 Edition
