@@ -9,7 +9,6 @@
 [![Java Code Coverage](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml/badge.svg)](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml)
 
 
-
 ### Prerequisite 
 * Maven 3.9.8
 * Java 17
