@@ -29,7 +29,7 @@ public class ProductResponse implements BasicResponse {
     private String battery;
     private String description;
 
-    public static ProductResponse convertConsumerEventToProductResponse(@NonNull ConsumerEvent consumerEvent) {
+    public static ProductResponse toProductResponse(@NonNull ConsumerEvent consumerEvent) {
         boolean isAirplaneModeOn = consumerEvent.getAirplaneMode().equals(AirplaneModeEnum.ON.name());
         return new ProductResponseBuilder()
                 .id(consumerEvent.getProductId())

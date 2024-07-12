@@ -1,7 +1,7 @@
 package com.vois.consumer.iot.events.service;
 
+import com.vois.consumer.iot.events.components.EventDataCarrier;
 import com.vois.consumer.iot.events.dto.ConsumerEvent;
-import com.vois.consumer.iot.events.dto.EventDataCarrier;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,6 @@
-package com.vois.consumer.iot.events.dto;
+package com.vois.consumer.iot.events.components;
 
+import com.vois.consumer.iot.events.dto.ConsumerEvent;
 import com.vois.consumer.iot.events.util.IotEventUtil;
 import lombok.Data;
 import org.springframework.context.annotation.Scope;

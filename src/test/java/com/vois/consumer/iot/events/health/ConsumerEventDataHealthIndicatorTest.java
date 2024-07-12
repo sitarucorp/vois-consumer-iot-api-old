@@ -1,6 +1,6 @@
 package com.vois.consumer.iot.events.health;
 
-import com.vois.consumer.iot.events.dto.EventDataCarrier;
+import com.vois.consumer.iot.events.components.EventDataCarrier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.Test;
 import org.mockito.Mock;

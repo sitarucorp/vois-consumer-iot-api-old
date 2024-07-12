@@ -11,7 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Builder
-public class LoadConsumerEventResponse {
+public class LoadConsumerEventResponse implements BasicResponse {
 
     private String description;
 

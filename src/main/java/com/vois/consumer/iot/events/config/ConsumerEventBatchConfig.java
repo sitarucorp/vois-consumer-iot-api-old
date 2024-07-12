@@ -1,9 +1,9 @@
 package com.vois.consumer.iot.events.config;
 
 import com.vois.consumer.iot.events.components.ConcurrentHashMapConsumerEventWriter;
+import com.vois.consumer.iot.events.components.EventDataCarrier;
 import com.vois.consumer.iot.events.dto.ConsumerEvent;
 import com.vois.consumer.iot.events.dto.EventConfig;
-import com.vois.consumer.iot.events.dto.EventDataCarrier;
 import com.vois.consumer.iot.events.processor.ConsumerEventProcessor;
 import lombok.AllArgsConstructor;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;

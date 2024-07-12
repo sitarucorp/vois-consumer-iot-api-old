@@ -1,6 +1,6 @@
 package com.vois.consumer.iot.events.health;
 
-import com.vois.consumer.iot.events.dto.EventDataCarrier;
+import com.vois.consumer.iot.events.components.EventDataCarrier;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;

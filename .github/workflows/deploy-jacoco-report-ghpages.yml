@@ -3,7 +3,7 @@ name: Deploy JaCoCo Report
 on:
   push:
     branches:
-      - master
+      - mastar
 
 jobs:
   build:

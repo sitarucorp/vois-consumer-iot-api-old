@@ -1,6 +1,5 @@
 package com.vois.consumer.iot.events.api;
 
-import com.vois.consumer.iot.events.specs.ResponseDescriptionMessageEnum;
 import com.vois.consumer.iot.events.dto.BasicResponse;
 import com.vois.consumer.iot.events.dto.ConsumerEvent;
 import com.vois.consumer.iot.events.dto.ErrorResponse;
@@ -13,6 +12,7 @@ import com.vois.consumer.iot.events.exceptions.ConsumerEventsResourceNotFoundExc
 import com.vois.consumer.iot.events.exceptions.NoConsumerEventSourceDataFileFoundException;
 import com.vois.consumer.iot.events.service.DataLoadingServiceImpl;
 import com.vois.consumer.iot.events.service.SearchConsumerEventServiceImpl;
+import com.vois.consumer.iot.events.specs.ResponseDescriptionMessageEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -70,7 +70,7 @@ public class ConsumerEventController {
 
             // if data available then return other wise an error response
             ResponseEntity<BasicResponse> response = searchResult.<ResponseEntity<BasicResponse>>map(consumerEvent -> ResponseEntity.ok(
-                            ProductResponse.convertConsumerEventToProductResponse(consumerEvent))).
+                            ProductResponse.toProductResponse(consumerEvent))).
                     orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
                             .body(new ErrorResponse(ResponseDescriptionMessageEnum.replaceResourceValueGetDescription(
                                     ResponseDescriptionMessageEnum.ERROR_PRODUCT_ID_NOT_FOUND , productId))));

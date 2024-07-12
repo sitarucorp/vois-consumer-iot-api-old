@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Data
-public class VersionInfo {
+public class VersionInfo implements BasicResponse {
     private String version;
 }

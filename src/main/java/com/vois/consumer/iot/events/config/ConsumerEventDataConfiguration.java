@@ -1,7 +1,7 @@
 package com.vois.consumer.iot.events.config;
 
+import com.vois.consumer.iot.events.components.EventDataCarrier;
 import com.vois.consumer.iot.events.dto.EventConfig;
-import com.vois.consumer.iot.events.dto.EventDataCarrier;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

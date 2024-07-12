@@ -1,8 +1,8 @@
 package com.vois.consumer.iot.events.util;
 
+import com.vois.consumer.iot.events.dto.ConsumerEvent;
 import com.vois.consumer.iot.events.specs.ResponseDescriptionMessageEnum;
 import com.vois.consumer.iot.events.specs.StatusEnum;
-import com.vois.consumer.iot.events.dto.ConsumerEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;

@@ -5,15 +5,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static junit.framework.Assert.assertEquals;
 
 @Slf4j
+@SpringJUnitConfig
+@RunWith(SpringJUnit4ClassRunner.class)
 public class ProductResponseTest {
 
     @Test
     @SneakyThrows
-    public void testConvertConsumerEventToProductResponse() throws JsonProcessingException {
+    public void testToProductResponse() throws JsonProcessingException {
         ConsumerEvent consumerEvent = new ConsumerEvent.ConsumerEventBuilder()
                 .datetime("1582605197000")
                 .eventId("10004")
@@ -26,7 +31,7 @@ public class ProductResponseTest {
                 .build();
 
         ProductResponse productResponse = ProductResponse.
-                convertConsumerEventToProductResponse(consumerEvent);
+                toProductResponse(consumerEvent);
         log.info("case 1: input {}", consumerEvent);
         log.info("case 1: output {}", productResponse);
 
@@ -47,7 +52,7 @@ public class ProductResponseTest {
 
     @Test
     @SneakyThrows
-    public void testConvertConsumerEventToProductResponseInactive() throws JsonProcessingException {
+    public void testToProductResponseInactive() throws JsonProcessingException {
         ConsumerEvent consumerEvent = new ConsumerEvent.ConsumerEventBuilder()
                 .datetime("158260528300")
                 .eventId("10004")
@@ -60,7 +65,7 @@ public class ProductResponseTest {
                 .build();
 
         ProductResponse productResponse = ProductResponse.
-                convertConsumerEventToProductResponse(consumerEvent);
+                toProductResponse(consumerEvent);
         log.info("case 2: input {}", consumerEvent);
         log.info("case 2: output {}", productResponse);
 
@@ -82,7 +87,7 @@ public class ProductResponseTest {
 
     @Test
     @SneakyThrows
-    public void testConvertConsumerEventToProductResponseButAirplaneModeIsOn() throws JsonProcessingException {
+    public void testToProductResponseButAirplaneModeIsOn() throws JsonProcessingException {
         ConsumerEvent consumerEvent = new ConsumerEvent.ConsumerEventBuilder()
                 .datetime("158260528300")
                 .eventId("10004")
@@ -95,7 +100,7 @@ public class ProductResponseTest {
                 .build();
 
         ProductResponse productResponse = ProductResponse.
-                convertConsumerEventToProductResponse(consumerEvent);
+                toProductResponse(consumerEvent);
 
         log.info("case 2: input {}", consumerEvent);
         log.info("case 2: output {}", productResponse);
