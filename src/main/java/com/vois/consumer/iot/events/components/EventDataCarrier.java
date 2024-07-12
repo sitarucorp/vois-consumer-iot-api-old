@@ -22,8 +22,10 @@ public class EventDataCarrier {
 
     private static boolean leader = true;
 
-    public EventDataCarrier(ConcurrentHashMap<String, ConsumerEvent>[] concurrentHashMapEvents) {
-        this.concurrentHashMaps = concurrentHashMapEvents;
+    public EventDataCarrier(ConcurrentHashMap<String, ConsumerEvent> leaderDataMap, ConcurrentHashMap<String, ConsumerEvent> memberDataMap) {
+        this.concurrentHashMaps = new ConcurrentHashMap[2];
+        this.concurrentHashMaps[0] = leaderDataMap;
+        this.concurrentHashMaps[1] = memberDataMap;
         leader = true;
     }
 

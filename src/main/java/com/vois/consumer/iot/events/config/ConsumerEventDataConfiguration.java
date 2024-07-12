@@ -26,6 +26,6 @@ public class ConsumerEventDataConfiguration {
 
     @Bean
     public EventDataCarrier getEventDataCarrier() {
-        return new EventDataCarrier(new ConcurrentHashMap[2]);
+        return new EventDataCarrier(new ConcurrentHashMap<>(), new ConcurrentHashMap<>());
     }
 }
