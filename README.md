@@ -24,6 +24,10 @@ mvn clean package spring-boot:run
 
 
 ```
+#### Java code coverage local report
+`vois-consumer-iot-api/target/site/jacoco/index.html`
+
+```
 ### API documentation 
 Swagger Endpoint can be accessible on 
 ```http://localhost:8080/swagger-ui/index.html```

@@ -34,7 +34,7 @@ public class ConsumerEventProcessorTest {
 
         ConsumerEvent postProcess = processor.process(sampleEvent);
 
-        // expect nothing has been transform right now by middle tier processor (kafka hinge)
+        // expect nothing has been transform right now by middle tier processor
         assertEquals("10004" , postProcess.getEventId());
         assertEquals("WG11155638" , postProcess.getProductId());
         assertEquals("1582605197000" , postProcess.getDatetime());
