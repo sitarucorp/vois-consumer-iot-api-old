@@ -12,7 +12,8 @@
         <!-- lookup parent from repository -->
     </parent>
     <groupId>com.vois</groupId>
-    <artifactId>client-consumer-iot</artifactId>
+    <packaging>pom</packaging>
+    <artifactId>vois-consumer-iot-api</artifactId>
     <version>1.1.1</version>
     <name>VoIS client consumer IoT</name>
     <description>vois client consumer iot demonstration</description>
@@ -95,6 +96,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>1.9.5</version>
@@ -162,6 +169,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <test>*Test,IntegrationTest*</test>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -4,11 +4,10 @@ import com.vois.consumer.iot.events.dto.ConsumerEvent;
 import com.vois.consumer.iot.events.service.DataLoadingServiceImpl;
 import com.vois.consumer.iot.events.service.SearchConsumerEventServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -23,15 +22,15 @@ import static org.mockito.Mockito.when;
         properties = "version=v2")
 @Slf4j
 public class ConsumerEventControllerIntegrationTest {
-    @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @Mock
     private DataLoadingServiceImpl dataLoadingService;
-    @MockBean
+    @Mock
     private SearchConsumerEventServiceImpl searchConsumerEventService;
-
-    @BeforeEach
+    private ConsumerEventController consumerEventController;
+    @Before
     public void setup() {
+        consumerEventController = new ConsumerEventController(dataLoadingService, searchConsumerEventService);
     }
 
     @Test

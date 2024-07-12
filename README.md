@@ -92,7 +92,7 @@ Connection: close
 
 ```
 
-#### How to generate sample random data csv for the local development test
+#### How to generate sample test data csv for the local development test
 ```shell
 
 $ ./src/main/resources/gen_test_data.sh
