@@ -9,15 +9,20 @@
 #
 
 # VoIS Demo Consumer Event IoT Input Data Generation Script
+# Script generates sample test records with N $(num_records) csv file to do the development local testing easy
+
+
 
 HOME_DIR=/g/vois/workspace/vois-consumer-iot/vois-consumer-iot-api
 FILE="$HOME_DIR/testdata.csv"
+
 cd $HOME_DIR
 touch $FILE
 
 [ $(echo $?) -ne 0 ] && echo "script will unable to continue, check home director path is valid" && exit -1
 
-NB_RECORDS=100
+num_records=100000   # Number of records to generate
+output_file=$FILE
 
 #"DateTime" , "EventId" , "ProductId" , "Latitude" , "Longitude" , "Battery" , "Light" , "AirplaneMode"
 
@@ -37,36 +42,80 @@ DateTime,EventId,ProductId,Latitude,Longitude,Battery,Light,AirplaneMode
 EOF
 )
 
-NUMBERS=$(perl -e 'printf "%03d\n", $_  for (0..999);')
 ONOFFS=("ON", "OFF")
+products=(WG 69)
 
-function getOnOrOff() {
+function onoff() {
     rand=$((RANDOM % 2))
     echo ${ONOFFS[$rand]}
 }
 
-function getRandomNumberO9() {
- rand=$((RANDOM % 104))
-     echo ${NUMBERS[$rand]}
+function products() {
+    rand=$((RANDOM % 2))
+    echo ${products[$rand]}
 }
 
 
-get_battery_life() {
+[ -e $output_file ] && rm -rf $output_file
+# Header
+echo "DateTime,EventId,ProductId,Latitude,Longitude,Battery,Light,AirplaneMode" > "$output_file"
+
+# Function to generate a random DateTime
+generate_datetime() {
+  echo "$(date -d "2000-01-01 + $((RANDOM % 20000)) days" +%s)000"
+}
+
+# Function to generate a random EventId
+generate_event_id() {
+  local suffix=$(printf %09d $(echo $((RANDOM % 10000000))))
+  echo EI$suffix
+}
+
+# Function to generate a random ProductId
+generate_product_id() {
+  local suffix=$(printf %09d $(echo $((RANDOM % 10000000))))
+  echo $(products)$suffix
+}
+
+# Function to generate a random Latitude
+generate_latitude() {
+  echo "$(awk -v min=-90 -v max=90 'BEGIN{srand(); print min + (max-min)*rand()}')"
+}
+
+# Function to generate a random Longitude
+generate_longitude() {
+  echo "$(awk -v min=-180 -v max=180 'BEGIN{srand(); print min + (max-min)*rand()}')"
+}
+
+# Function to generate a random Battery level
+generate_battery() {
  local random_int=$((RANDOM % 100))
    printf "0.%02d\n" "$random_int"
 }
 
-generate_random_float() {
-  echo "24.284"
+# Function to generate a random Light level
+generate_light() {
+  onoff
 }
 
-
-function genRecord() {
-    ts=echo "$(date -d "-3 minutes" +%s)"000
-    line="${ts},$(printf "VOIS%03d" {0..999}), $(echo "WGXX$(printf "%03d" {0..999})"),51.5185,-0.1736,$(get_battery_life),$(getOnOrOff),$(getOnOrOff)"
-
+# Function to generate a random AirplaneMode
+generate_airplane_mode() {
+  onoff
 }
 
-echo $CONTENT
+# Generate records
+for ((i=1; i<=$num_records; i++))
+do
+  datetime=$(generate_datetime)
+  event_id=$(generate_event_id)
+  product_id=$(generate_product_id)
+  latitude=$(generate_latitude)
+  longitude=$(generate_longitude)
+  battery=$(generate_battery)
+  light=$(generate_light)
+  airplane_mode=$(generate_airplane_mode)
 
-for i in {1..4}; do generate_random_float; done
+  echo "$datetime,$event_id,$product_id,$latitude,$longitude,$battery,$light,$airplane_mode" >> "$output_file"
+done
+
+echo "Data generation complete. $num_records records saved to $output_file. size = "$(ls -h $output_file)
