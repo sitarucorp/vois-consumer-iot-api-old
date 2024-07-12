@@ -30,6 +30,6 @@ jobs:
       - name: Deploy JaCoCo report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.a }}
           publish_dir: ./coverage-reports
           publish_branch: gh-pages
