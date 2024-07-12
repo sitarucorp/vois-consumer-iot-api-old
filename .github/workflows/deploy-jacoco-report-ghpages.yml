@@ -1,4 +1,4 @@
-name: [Java Code Coverage]
+name: Java Code Coverage
 
 on:
   push:
