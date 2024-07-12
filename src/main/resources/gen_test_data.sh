@@ -1,12 +1,13 @@
 #! /bin/bash
 
-#
-#		\      //            ||`          .|';
-#		 \    //             ||           ||
-#		  \  //   .|''|, .|''||   '''|.  '||'  .|''|, `||''|,  .|''|,
-#		   \//    ||  || ||  ||  .|''||   ||   ||  ||  ||  ||  ||..||
-#		    /     `|..|' `|..||. `|..||. .||.  `|..|' .||  ||. `|...
-#
+
+##     ##  #######  ########     ###    ########  #######  ##    ## ########
+##     ## ##     ## ##     ##   ## ##   ##       ##     ## ###   ## ##
+##     ## ##     ## ##     ##  ##   ##  ##       ##     ## ####  ## ##
+##     ## ##     ## ##     ## ##     ## ######   ##     ## ## ## ## ######
+ ##   ##  ##     ## ##     ## ######### ##       ##     ## ##  #### ##
+  ## ##   ##     ## ##     ## ##     ## ##       ##     ## ##   ### ##
+   ###     #######  ########  ##     ## ##        #######  ##    ## ########
 
 # VoIS Demo Consumer Event IoT Input Data Generation Script
 # Script generates sample test records with N $(num_records) csv file to do the development local testing easy
@@ -118,4 +119,4 @@ do
   echo "$datetime,$event_id,$product_id,$latitude,$longitude,$battery,$light,$airplane_mode" >> "$output_file"
 done
 
-echo "Data generation complete. $num_records records saved to $output_file. size = "$(ls -h $output_file)
+echo "Data generation complete. $num_records records saved to $output_file. size = "$(ls -lh $output_file)

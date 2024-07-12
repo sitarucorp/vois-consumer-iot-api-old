@@ -1,7 +1,6 @@
 package com.vois.consumer.iot.events.health;
 
 import com.vois.consumer.iot.events.components.EventDataCarrier;
-import lombok.AllArgsConstructor;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
@@ -9,9 +8,12 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-@AllArgsConstructor
 public class ConsumerEventDataHealthIndicator implements HealthIndicator {
-    private EventDataCarrier eventDataCarrier;
+    private final EventDataCarrier eventDataCarrier;
+
+    public ConsumerEventDataHealthIndicator(EventDataCarrier eventDataCarrier) {
+        this.eventDataCarrier = eventDataCarrier;
+    }
 
     @Override
     public Health health() {

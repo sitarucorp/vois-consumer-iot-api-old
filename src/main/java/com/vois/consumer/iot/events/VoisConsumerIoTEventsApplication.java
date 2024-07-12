@@ -25,7 +25,7 @@ public class VoisConsumerIoTEventsApplication {
     @Value("${version:unknown}")
     private String version;
 
-    @Value("${vois.consumer.events.data.csvfile.path:/opt/vois/temp.csv}")
+    @Value("${vois.consumer.events.data.csvfile.path:/app/data.csv}")
     private String defaultFilePath;
 
     public VoisConsumerIoTEventsApplication(DataLoadingServiceImpl dataLoadingService) {
@@ -50,6 +50,10 @@ public class VoisConsumerIoTEventsApplication {
     @EventListener
     public void onApplicationEvent(ApplicationStartedEvent event) throws NoConsumerEventSourceDataFileFoundException {
         log.info("VoisConsumerIoTEventsApplication application started");
-        dataLoadingService.loadDataFromFile(defaultFilePath);
+        if("true".equals(System.getenv().getOrDefault("load_events_available" , "true"))) {
+            dataLoadingService.loadDataFromFile(defaultFilePath);
+        } else {
+            log.info("skipping default data load as load_events_available environment variable is not set to true");
+        }
     }
 }

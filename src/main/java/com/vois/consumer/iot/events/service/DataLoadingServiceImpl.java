@@ -69,7 +69,7 @@ public class DataLoadingServiceImpl implements DataLoadingService {
         try {
             event = convert(line);
         } catch (StreamCorruptedException e) {
-            log.error("data corrupt record: size not matches 8 fields for line '{}'" , line);
+            log.warn("data corrupt record: size not matches 8 fields for line '{}'" , line);
         }
         log.info("event - {}" , event);
     }

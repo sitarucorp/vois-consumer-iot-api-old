@@ -91,6 +91,13 @@ Connection: close
 
 ```
 
+#### How to generate sample random data csv for the local development test
+```shell
+
+$ ./src/main/resources/gen_test_data.sh
+Data generation complete. 1000000 records saved to /g/random_data.csv. size = /g/random_data.csv
+
+```
 #### Sample API call using c-url to load data:
 ```shell
  curl -siS -X POST -H "Content-Type: application/json" http://localhost:8080/iot/event/v1 -d '{ "filepath": "c:\\dev.csv" }'

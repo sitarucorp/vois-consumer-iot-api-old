@@ -29,9 +29,8 @@ public class ConsumerEventBatchConfig {
 
     @Bean
     public ConcurrentHashMap<String, ConsumerEvent> concurrentHashMapEvents() {
-        return new ConcurrentHashMap<String, ConsumerEvent>();
+        return new ConcurrentHashMap<>();
     }
-
 
     @Bean
     public ConcurrentHashMapConsumerEventWriter concurrentHashMapConsumerEventWriter(EventDataCarrier eventDataCarrier) {

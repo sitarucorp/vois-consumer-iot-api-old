@@ -2,7 +2,6 @@ package com.vois.consumer.iot.events.service;
 
 import com.vois.consumer.iot.events.components.EventDataCarrier;
 import com.vois.consumer.iot.events.dto.ConsumerEvent;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +9,14 @@ import java.time.Instant;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 @Slf4j
 public class SearchConsumerEventServiceImpl implements SearchConsumerEventService {
 
-    private EventDataCarrier eventDataCarrier;
+    private final EventDataCarrier eventDataCarrier;
+
+    public SearchConsumerEventServiceImpl(EventDataCarrier eventDataCarrier) {
+        this.eventDataCarrier = eventDataCarrier;
+    }
 
     @Override
     public Optional<ConsumerEvent> searchProductEvent(String productId , Optional<String> timestamp) {
