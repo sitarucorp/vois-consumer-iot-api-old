@@ -22,7 +22,7 @@ public class EventDataCarrier {
 
     private static boolean leader = true;
 
-    public EventDataCarrier(ConcurrentHashMap<String, ConsumerEvent> leaderDataMap, ConcurrentHashMap<String, ConsumerEvent> memberDataMap) {
+    public EventDataCarrier(ConcurrentHashMap<String, ConsumerEvent> leaderDataMap , ConcurrentHashMap<String, ConsumerEvent> memberDataMap) {
         this.concurrentHashMaps = new ConcurrentHashMap[2];
         this.concurrentHashMaps[0] = leaderDataMap;
         this.concurrentHashMaps[1] = memberDataMap;
@@ -31,6 +31,7 @@ public class EventDataCarrier {
 
     public void add(ConsumerEvent event) {
         concurrentHashMaps[0].put(event.getEventId() , event);
+        leader = true;
     }
 
     public void addAll(List<ConsumerEvent> events) {
@@ -41,7 +42,7 @@ public class EventDataCarrier {
 
     public void reset() {
         leader = false;
-        concurrentHashMaps[1] = new ConcurrentHashMap<>(concurrentHashMaps[0]);         // copy
+        concurrentHashMaps[1] = new ConcurrentHashMap<>(concurrentHashMaps[0]);         // replacing the secondary
         concurrentHashMaps[0].clear();  // leaning leader
     }
 

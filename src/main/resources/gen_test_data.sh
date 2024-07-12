@@ -1,17 +1,15 @@
 #! /bin/bash
 
-
-##     ##  #######  ########     ###    ########  #######  ##    ## ########
-##     ## ##     ## ##     ##   ## ##   ##       ##     ## ###   ## ##
-##     ## ##     ## ##     ##  ##   ##  ##       ##     ## ####  ## ##
-##     ## ##     ## ##     ## ##     ## ######   ##     ## ## ## ## ######
- ##   ##  ##     ## ##     ## ######### ##       ##     ## ##  #### ##
-  ## ##   ##     ## ##     ## ##     ## ##       ##     ## ##   ### ##
-   ###     #######  ########  ##     ## ##        #######  ##    ## ########
+#
+#		\      //            ||`          .|';
+#		 \    //             ||           ||
+#		  \  //   .|''|, .|''||   '''|.  '||'  .|''|, `||''|,  .|''|,
+#		   \//    ||  || ||  ||  .|''||   ||   ||  ||  ||  ||  ||..||
+#		    /     `|..|' `|..||. `|..||. .||.  `|..|' .||  ||. `|...
+#
 
 # VoIS Demo Consumer Event IoT Input Data Generation Script
 # Script generates sample test records with N $(num_records) csv file to do the development local testing easy
-
 
 
 HOME_DIR=/g/vois/workspace/vois-consumer-iot/vois-consumer-iot-api
