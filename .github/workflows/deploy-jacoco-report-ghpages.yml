@@ -1,4 +1,4 @@
-name: Deploy JaCoCo Report
+name: [Java Code Coverage]
 
 on:
   push:
