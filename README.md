@@ -10,11 +10,15 @@
 
 
 ### Prerequisite 
-* Maven 3.9.8
-* Java 17
-* Intellij Ultimate/Community 2024 Edition
-* Git for windows
+* `Maven 3.9.8`
+* `Java 17`
+* `Intellij Ultimate/Community 2024 Edition`
+* `Git for windows`
 
+#### Checkout code
+```shell
+git clone https://github.com/sitarucorp/vois-consumer-iot-api.git
+```
 #### Local Dev To Start Application
 
 ```bash
