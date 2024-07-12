@@ -1,7 +1,6 @@
 package com.vois.consumer.iot.events;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
