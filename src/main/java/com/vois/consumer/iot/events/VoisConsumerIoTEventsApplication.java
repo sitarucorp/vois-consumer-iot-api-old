@@ -1,9 +1,12 @@
 package com.vois.consumer.iot.events;
 
+import com.vois.consumer.iot.events.exceptions.NoConsumerEventSourceDataFileFoundException;
+import com.vois.consumer.iot.events.service.DataLoadingServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -17,8 +20,17 @@ import java.util.Map;
 @Slf4j
 public class VoisConsumerIoTEventsApplication {
 
+    private DataLoadingServiceImpl dataLoadingService;
+
     @Value("${version:unknown}")
     private String version;
+
+    @Value("${vois.consumer.events.data.csvfile.path:/opt/vois/temp.csv}")
+    private String defaultFilePath;
+
+    public VoisConsumerIoTEventsApplication(DataLoadingServiceImpl dataLoadingService) {
+        this.dataLoadingService = dataLoadingService;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(VoisConsumerIoTEventsApplication.class , args);
@@ -33,5 +45,11 @@ public class VoisConsumerIoTEventsApplication {
         Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping
                 .getHandlerMethods();
         map.forEach((key , value) -> log.info("VoisConsumerIoTEventsApplication '{}' : {} {}" , version , key , value));
+    }
+
+    @EventListener
+    public void onApplicationEvent(ApplicationStartedEvent event) throws NoConsumerEventSourceDataFileFoundException {
+        log.info("VoisConsumerIoTEventsApplication application started");
+        dataLoadingService.loadDataFromFile(defaultFilePath);
     }
 }

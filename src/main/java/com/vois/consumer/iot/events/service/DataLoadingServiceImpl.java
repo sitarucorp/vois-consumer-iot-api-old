@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class DataLoadingServiceImpl implements DataLoadingService {
 
     @Override
-    public boolean loadDataFromFile(String filePath) throws NoConsumerEventSourceDataFileFoundException {
+    public final boolean loadDataFromFile(String filePath) throws NoConsumerEventSourceDataFileFoundException {
         validateIfFileExists(filePath);
         ExecutorService executor = Executors.newFixedThreadPool(4);
         log.info("thread.count: {}" , 4);
