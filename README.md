@@ -18,16 +18,13 @@
 git clone https://github.com/sitarucorp/vois-consumer-iot-api.git
 ```
 #### Local Dev To Start Application
-
 ```bash
 mvn clean package spring-boot:run
-
-
 ```
 #### Java code coverage local report
 `vois-consumer-iot-api/target/site/jacoco/index.html`
 
-```
+```bash
 ### API documentation 
 Swagger Endpoint can be accessible on 
 ```http://localhost:8080/swagger-ui/index.html```
