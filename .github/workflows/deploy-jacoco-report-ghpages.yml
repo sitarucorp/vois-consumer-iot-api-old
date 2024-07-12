@@ -1,0 +1,35 @@
+name: Deploy JaCoCo Report
+
+on:
+  push:
+    branches:
+      - mastar
+
+jobs:
+  build:
+    name: Deploy JaCoCo Report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17' # or your preferred Java version
+
+      - name: Build with Maven
+        run: mvn clean test jacoco:report
+
+
+      - name: Generate JaCoCo report
+        run: mkdir -p $GITHUB_WORKSPACE/coverage-reports && cp -r target/site/jacoco/* $GITHUB_WORKSPACE/coverage-reports/ || true
+        # Adjust the path to the JaCoCo reports depending on your build tool and project structure
+
+      - name: Deploy JaCoCo report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./coverage-reports
+          publish_branch: gh-pages
