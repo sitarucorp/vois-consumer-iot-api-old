@@ -44,7 +44,7 @@ Date: Thu, 11 Jul 2024 15:03:59 GMT
 
 {"version":"v1"}
 ```
-#### Healthcheck (http://localhost:8080/howru)
+#### Healthcheck (```http://localhost:8080/howru```)
 ```bash 
 curl -i http://localhost:8080/howru/health # please note here consumerEventData shows size of the collection getting loaded in health checks.
 {
