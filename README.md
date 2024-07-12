@@ -4,9 +4,9 @@
 
 
 
-[![VoIS ConsumerIoT CI [Build]](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/maven.yml/badge.svg)](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/maven.yml)
+[![[Maven Build]](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/maven.yml/badge.svg)](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/maven.yml)
 
-[![Java Code Coverage Report](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml/badge.svg)](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml)
+[![Java Code Coverage](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml/badge.svg)](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml)
 
 
 
