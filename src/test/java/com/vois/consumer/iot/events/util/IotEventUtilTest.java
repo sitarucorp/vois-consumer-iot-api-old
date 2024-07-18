@@ -32,27 +32,36 @@ public class IotEventUtilTest {
 
     @Test
     public void testGetStatusByLatLongReturnActiveWhenLatLongPresent() {
-        assertEquals("Active" , IotEventUtil.getStatusByLatLong("52.48" , "-73.24", false));
-        assertEquals("Active" , IotEventUtil.getStatusByLatLong("40.73061" , "-73.935242", false));
+        assertEquals("Active" , IotEventUtil.getStatusByLatLong("52.48" , "-73.24" , false));
+        assertEquals("Active" , IotEventUtil.getStatusByLatLong("40.73061" , "-73.935242" , false));
     }
 
     @Test
     public void testGetStatusByLatLongReturnInactiveWhenLatLongAbsent() {
-        assertEquals("Inactive" , IotEventUtil.getStatusByLatLong("" , "", false));
-        assertEquals("Inactive" , IotEventUtil.getStatusByLatLong(null , null, false));
-        assertEquals("Inactive" , IotEventUtil.getStatusByLatLong("40.73061" , null, false));
-        assertEquals("Inactive" , IotEventUtil.getStatusByLatLong(null , "-73.935242", false));
+        assertEquals("Inactive" , IotEventUtil.getStatusByLatLong("" , "" , false));
+        assertEquals("Inactive" , IotEventUtil.getStatusByLatLong(null , null , false));
+        assertEquals("Inactive" , IotEventUtil.getStatusByLatLong("40.73061" , null , false));
+        assertEquals("Inactive" , IotEventUtil.getStatusByLatLong(null , "-73.935242" , false));
     }
 
     @Test
     public void testFindNearestTimestampEventId() {
-        Map<String, String> samples = Map.of("6900012" , "1582605077000" , "6900013" , "1582605137000" , "6900014" ,
-                "1582405217000" , "6900015" , "1582205257000" , "6900016" , "1582605257000" , "6900017" ,
-                "1582705258000" , "6900018" , "1582805259000" , "6900019" , "1582905317000" , "6900020" ,
-                "1582105377000" , "6900021" , "1582605437000");
+        Map<String, String> samples = Map.of(
+                "6900012" , "1582605077000" ,  //Tue Feb 25 2020 04:31:17.000
+                "6900013" , "1582605137000" ,   //Tue Feb 25 2020 04:32:17.000
+                "6900014" , "1582405217000" ,   //Sat Feb 22 2020 21:00:17.000
+                "6900015" , "1582205257000" ,   //Thu Feb 20 2020 13:27:37.000
+                "6900016" , "1582605257000" ,   //Tue Feb 25 2020 04:34:17.000
+                "6900017" , "1582705258000" ,   //Wed Feb 26 2020 08:20:58.000
+                "6900018" , "1582805259000" ,   //Thu Feb 27 2020 12:07:39.000
+                "6900019" , "1582905317000" ,   //Fri Feb 28 2020 15:55:17.000
+                "6900020" , "1582105377000" ,   //Wed Feb 19 2020 09:42:57.000
+                "6900021" , "1582605437000");   //Tue Feb 25 2020 04:37:17.000
 
-        assertTrue(IotEventUtil.findNearestTimestampEventId(new LinkedHashMap<>(samples) , 1582305257000L).isPresent());
-        assertEquals("6900014" , IotEventUtil.findNearestTimestampEventId(new LinkedHashMap<>(samples) , 1582305257000L).get());
+        assertTrue(IotEventUtil.findNearestTimestampEventId(new LinkedHashMap<>(samples) ,
+                1582305257000L).isPresent());  // Fri Feb 21 2020 17:14:17.000
+        assertEquals("6900014" , IotEventUtil.findNearestTimestampEventId(new LinkedHashMap<>(samples)
+                , 1582305257000L).get());  //Sat Feb 22 2020 21:00:17.000
 
     }
 
@@ -85,7 +94,7 @@ public class IotEventUtilTest {
     }
 
     @Test
-    public void testGetDescriptionMessageOnSuccessfulIdentificationOfEvent(){
+    public void testGetDescriptionMessageOnSuccessfulIdentificationOfEvent() {
         ConsumerEvent sampleEvent = ConsumerEvent.builder()
                 .datetime("1620701160688")
                 .eventId("10004")
@@ -97,8 +106,8 @@ public class IotEventUtilTest {
                 .airplaneMode("ON")
                 .build();
 
-        assertEquals("SUCCESS: Location not available: Please turn off airplane mode.",
-                IotEventUtil.getDescriptionMessageOnSuccessfullIdentificationOfEvent(sampleEvent, true));
+        assertEquals("SUCCESS: Location not available: Please turn off airplane mode." ,
+                IotEventUtil.getDescriptionMessageOnSuccessfullIdentificationOfEvent(sampleEvent , true));
     }
 
 }
