@@ -12,11 +12,11 @@
 # Script generates sample test records with N $(num_records) csv file to do the development local testing easy
 
 
-HOME_DIR=/g/vois/workspace/vois-consumer-iot/
-FILE="$HOME_DIR/testdata.csv"
+HOME_DIR=/g/vois/workspace/vois-consumer-iot/vois-consumer-iot-api/src/main/resources/
+FILE="$HOME_DIR/sample_data.csv"
 
 cd $HOME_DIR
-touch $FILE
+[[ -e $FILE ]] && rm -rf $FILE || touch $FILE
 
 [ $(echo $?) -ne 0 ] && echo "script will unable to continue, check home director path is valid" && exit -1
 
