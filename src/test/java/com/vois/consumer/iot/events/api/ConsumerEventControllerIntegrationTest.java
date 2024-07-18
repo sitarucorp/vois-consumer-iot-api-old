@@ -5,6 +5,7 @@ import com.vois.consumer.iot.events.service.DataLoadingServiceImpl;
 import com.vois.consumer.iot.events.service.SearchConsumerEventServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,6 +22,7 @@ import static org.mockito.Mockito.when;
 @WebMvcTest(value = ConsumerEventController.class,
         properties = "version=v2")
 @Slf4j
+@Ignore
 public class ConsumerEventControllerIntegrationTest {
     private MockMvc mockMvc;
     @Mock

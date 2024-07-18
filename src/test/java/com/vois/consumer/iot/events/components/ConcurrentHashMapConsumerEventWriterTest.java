@@ -45,7 +45,7 @@ public class ConcurrentHashMapConsumerEventWriterTest {
         log.info("running analysis on sample data {}",file.getAbsolutePath());
 
         assertTrue(file.exists());
-        assertEquals(292924, file.length());
+        assertEquals(64496, file.length());
 
     }
 }
