@@ -12,6 +12,7 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 @Data
+@Deprecated
 public class ConcurrentHashMapConsumerEventWriter implements ItemWriter<ConsumerEvent> {
     private EventDataCarrier eventDataCarrier;
 

@@ -51,6 +51,7 @@ public class VoisConsumerIoTEventsApplication {
     public void onApplicationEvent(ApplicationStartedEvent event) throws NoConsumerEventSourceDataFileFoundException {
         log.info("VoisConsumerIoTEventsApplication application started");
         if("true".equals(System.getenv().getOrDefault("load_events_available" , "true"))) {
+            log.info("is file available : "+dataLoadingService.validateIfFileExists(defaultFilePath));
             dataLoadingService.loadDataFromFile(defaultFilePath);
         } else {
             log.info("skipping default data load as load_events_available environment variable is not set to true");

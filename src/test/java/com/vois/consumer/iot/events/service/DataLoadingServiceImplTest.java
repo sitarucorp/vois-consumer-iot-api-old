@@ -34,7 +34,8 @@ public class DataLoadingServiceImplTest {
     @Test(expected = NoConsumerEventSourceDataFileFoundException.class)
     @SneakyThrows
     public void testValidateIfFileExists() throws NoConsumerEventSourceDataFileFoundException {
-        DataLoadingServiceImpl dataLoadingService = new DataLoadingServiceImpl(new EventDataCarrier(new ConcurrentHashMap<>(), new ConcurrentHashMap<>()));
+        DataLoadingServiceImpl dataLoadingService = new DataLoadingServiceImpl(
+                new EventDataCarrier(new ConcurrentHashMap<>(), new ConcurrentHashMap<>()));
         dataLoadingService.validateIfFileExists("/opt/abcd/idontknow/tatafoofoo/path.txt");
     }
 }

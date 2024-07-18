@@ -32,6 +32,12 @@ Example :-
 
 ![swagger](doc.png)
 
+API call :-
+
+![swagger](example.png)
+
+
+IntegrationTests are available `com.vois.consumer.iot.events.api.ConsumerEventControllerIntegrationTest`
 ## API calls (Demo)
 
 #### version info

@@ -2,8 +2,11 @@ package com.vois.consumer.iot.events.service;
 
 import com.vois.consumer.iot.events.components.EventDataCarrier;
 import com.vois.consumer.iot.events.dto.ConsumerEvent;
+import com.vois.consumer.iot.events.exceptions.InvalidCsvRecordException;
 import com.vois.consumer.iot.events.exceptions.NoConsumerEventSourceDataFileFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.batch.item.Chunk;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -13,17 +16,13 @@ import java.io.StreamCorruptedException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
 public class DataLoadingServiceImpl implements DataLoadingService {
 
     private static final String COMMA = ",";
-
-    private EventDataCarrier eventDataCarrier;
+    private final EventDataCarrier eventDataCarrier;
 
     public DataLoadingServiceImpl(EventDataCarrier eventDataCarrier) {
         this.eventDataCarrier = eventDataCarrier;
@@ -31,30 +30,28 @@ public class DataLoadingServiceImpl implements DataLoadingService {
 
     @Override
     public final boolean loadDataFromFile(String filePath) throws NoConsumerEventSourceDataFileFoundException {
+        int corruptRecordCount = 0;
         if(validateIfFileExists(filePath)) {
-            ExecutorService executor = Executors.newFixedThreadPool(4);
-            log.info("thread.count: {}" , 4);
             try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
                 String line;
                 while ((line = br.readLine()) != null) {
-                    log.info("{}" , line);  // FIXME change to debug
-                    final String lineToProcess = line;
-                    executor.submit(() -> processLine(lineToProcess));
+                    if(!StringUtils.startsWith(line,"DateTime,")) {
+                        log.debug("{}" , line);
+                        loadDataSharedMemory(processLine(line));
+                    }
                 }
             } catch (IOException e) {
-                log.error("Error occurred while reading file {}" , filePath , e);
-            } finally {
-                executor.shutdown();
-                try {
-                    executor.awaitTermination(15 , TimeUnit.SECONDS);
-                } catch (Exception e) {
-                    log.error("Error while closing executor on closing file {}" , filePath , e);
-                }
+                throw new NoConsumerEventSourceDataFileFoundException("e=" + e.getMessage());
+            } catch (InvalidCsvRecordException e) {
+                ++corruptRecordCount;
+                log.debug("InvalidCsvRecordException : {}, {}" , corruptRecordCount , e.getMessage());
             }
+            log.info("Number of records available : "+ eventDataCarrier.getNumberOfRecordsInMemory());
             return true;
         }
         return false;
     }
+
 
     @Override
     public boolean validateIfFileExists(String filePath) throws NoConsumerEventSourceDataFileFoundException {
@@ -64,14 +61,24 @@ public class DataLoadingServiceImpl implements DataLoadingService {
         throw new NoConsumerEventSourceDataFileFoundException("file does not exist: " + filePath);
     }
 
-    private static void processLine(String line) {
+    private void loadDataSharedMemory(ConsumerEvent event) {
+        try {
+            eventDataCarrier.add(event);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private static ConsumerEvent processLine(String line) throws InvalidCsvRecordException {
         ConsumerEvent event = null; // Assuming comma as delimiter
         try {
             event = convert(line);
         } catch (StreamCorruptedException e) {
             log.warn("data corrupt record: size not matches 8 fields for line '{}'" , line);
+            throw new InvalidCsvRecordException(e.getMessage());
         }
         log.info("event - {}" , event);
+        return event;
     }
 
     public static ConsumerEvent convert(String csvLine) throws StreamCorruptedException {
@@ -79,10 +86,11 @@ public class DataLoadingServiceImpl implements DataLoadingService {
         log.debug("record:- {}" , csvLine);
 
         if(csvRecord.length != 8) {
-            throw new StreamCorruptedException("Invalid CSV line: " + csvLine);
+            throw new StreamCorruptedException("Invalid CSV line (fields are not exact matching 8 in length): " + csvLine);
         }
 
-        // "DateTime" , "EventId" , "ProductId" , "Latitude" , "Longitude" , "Battery" , "Light" , "AirplaneMode")
+        // "DateTime" , "EventId" , "ProductId" , "Latitude" ,
+        // "Longitude" , "Battery" , "Light" , "AirplaneMode")
         return ConsumerEvent.builder()
                 .datetime(csvRecord[0])
                 .eventId(csvRecord[1])
