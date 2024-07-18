@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class GlobalExceptionHandlerControllerAdvisorTest {
 
     @Mock
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Ignore
     public void testHandleEventsException() throws Exception {
