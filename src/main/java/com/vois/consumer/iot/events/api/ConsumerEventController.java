@@ -41,7 +41,7 @@ public class ConsumerEventController {
         this.searchConsumerEventService = searchConsumerEventService;
     }
 
-    @Operation(summary = "Returns version information")
+    @Operation(summary = "Returns version information configured in property")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Version Information",
