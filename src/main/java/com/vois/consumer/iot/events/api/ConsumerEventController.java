@@ -92,9 +92,11 @@ public class ConsumerEventController {
     public ResponseEntity<LoadConsumerEventResponse> loadConsumerEvent(@RequestBody LoadConsumerEventRequest loadConsumerEventRequest)
             throws ConsumerEventsApplicationException, NoConsumerEventSourceDataFileFoundException {
         try {
-            Optional<Boolean> result = dataLoadingService.refreshDataFromFile(loadConsumerEventRequest.getFilepath());
+            //validateFilePathMatchesOsScheme(loadConsumerEventRequest.getFilepath());  // confirm unix or windows filepath provided
+            Optional<Integer> result = dataLoadingService.refreshDataFromFile(loadConsumerEventRequest.getFilepath());
 
-            if(result.isPresent() && result.get()) {
+            if(result.isPresent()) {
+                //response.addHeader("x-collection-size", String.valueOf(result.get()));
                 return ResponseEntity
                         .ok(LoadConsumerEventResponse.builder().description(
                                 ResponseDescriptionMessageEnum.DATA_REFRESHED.getDescription()).build());

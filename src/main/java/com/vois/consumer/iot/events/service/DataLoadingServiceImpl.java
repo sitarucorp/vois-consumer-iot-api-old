@@ -28,13 +28,15 @@ public class DataLoadingServiceImpl implements DataLoadingService {
     }
 
     @Override
-    public final boolean loadDataFromFile(String filePath) throws NoConsumerEventSourceDataFileFoundException {
+    public final Integer loadDataFromFile(String filePath) throws NoConsumerEventSourceDataFileFoundException {
         int corruptRecordCount = 0;
-        if(validateIfFileExists(filePath)) {
+        if(validateIfFileExists(filePath)) {    //case remaining && Files.lines(Path.of(filePath, Charset.defaultCharset())).count() > 1))
+            log.warn("New file requested to load, resetting event data carrier path: {}" , filePath);
+            eventDataCarrier.reset();
             try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
                 String line;
                 while ((line = br.readLine()) != null) {
-                    if(!StringUtils.startsWith(line,"DateTime,")) {
+                    if(!StringUtils.startsWith(line , "DateTime,")) {
                         log.debug("{}" , line);
                         loadDataSharedMemory(processLine(line));
                     }
@@ -45,10 +47,10 @@ public class DataLoadingServiceImpl implements DataLoadingService {
                 ++corruptRecordCount;
                 log.debug("InvalidCsvRecordException : {}, {}" , corruptRecordCount , e.getMessage());
             }
-            log.info("Number of records available : "+ eventDataCarrier.getNumberOfRecordsInMemory());
-            return true;
+            log.info("Number of records available : " + eventDataCarrier.getNumberOfRecordsInMemory());
+            return eventDataCarrier.getNumberOfRecordsInMemory();
         }
-        return false;
+        return -1;
     }
 
 

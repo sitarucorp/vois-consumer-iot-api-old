@@ -3,6 +3,7 @@ package com.vois.consumer.iot.events.components;
 import com.vois.consumer.iot.events.dto.ConsumerEvent;
 import com.vois.consumer.iot.events.util.IotEventUtil;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @Data
 @Component
 @Scope("prototype")
+@Slf4j
 public class EventDataCarrier {
 
     private ConcurrentHashMap<String, ConsumerEvent>[] concurrentHashMaps;
@@ -43,6 +45,8 @@ public class EventDataCarrier {
     public void reset() {
         leader = false;
         concurrentHashMaps[1] = new ConcurrentHashMap<>(concurrentHashMaps[0]);         // replacing the secondary
+        log.warn("until the leader map get loaded, delegating content to member map to serve intermediate request until full data "
+                + "is loaded and leader is up again");
         concurrentHashMaps[0].clear();  // leaning leader
     }
 

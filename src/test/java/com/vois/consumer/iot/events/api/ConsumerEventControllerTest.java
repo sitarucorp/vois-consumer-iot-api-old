@@ -59,7 +59,7 @@ public class ConsumerEventControllerTest {
     @SneakyThrows
     public void testLoadConsumerEvent() {
         try {
-            when(dataLoadingService.refreshDataFromFile(anyString())).thenReturn(Optional.of(true));
+            when(dataLoadingService.refreshDataFromFile(anyString())).thenReturn(Optional.of(100));
             ResponseEntity<LoadConsumerEventResponse> response = consumerEventController.loadConsumerEvent(
                     LoadConsumerEventRequest.builder().filepath("/tmp/foo.csv").build());
             assertEquals(200 , response.getStatusCode().value());
