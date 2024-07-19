@@ -12,7 +12,7 @@
 # Script generates sample test records with N $(num_records) csv file to do the development local testing easy
 
 
-HOME_DIR=/g/vois/workspace/vois-consumer-iot/vois-consumer-iot-api/src/main/resources/
+HOME_DIR=/g/vois/workspace/
 FILE="$HOME_DIR/sample_data.csv"
 
 cd $HOME_DIR
@@ -20,14 +20,13 @@ cd $HOME_DIR
 
 [ $(echo $?) -ne 0 ] && echo "script will unable to continue, check home director path is valid" && exit -1
 
-num_records=100000   # Number of records to generate
+num_records=100   # Number of records to generate
 output_file=$FILE
 
 #"DateTime" , "EventId" , "ProductId" , "Latitude" , "Longitude" , "Battery" , "Light" , "AirplaneMode"
 
 CONTENT=$(
     cat <<EOF
-DateTime,EventId,ProductId,Latitude,Longitude,Battery,Light,AirplaneMode
 1582605077000,10001,WG11155638,51.5185,-0.1736,0.99,OFF,OFF
 1582605137000,10002,WG11155638,51.5185,-0.1736,0.99,OFF,OFF
 1582605197000,10003,WG11155638,51.5185,-0.1736,0.98,OFF,OFF
@@ -58,6 +57,7 @@ function products() {
 [ -e $output_file ] && rm -rf $output_file
 # Header
 echo "DateTime,EventId,ProductId,Latitude,Longitude,Battery,Light,AirplaneMode" > "$output_file"
+echo "$CONTENT" >> $output_file
 
 # Function to generate a random DateTime
 generate_datetime() {
@@ -102,6 +102,7 @@ generate_airplane_mode() {
   onoff
 }
 
+COMMA=","
 # Generate records
 for ((i=1; i<=$num_records; i++))
 do
@@ -114,7 +115,18 @@ do
   light=$(generate_light)
   airplane_mode=$(generate_airplane_mode)
 
-  echo "$datetime,$event_id,$product_id,$latitude,$longitude,$battery,$light,$airplane_mode" >> "$output_file"
+  csv="$datetime"$COMMA"$event_id"$COMMA"$product_id"$COMMA"$latitude"$COMMA"$longitude"$COMMA"$battery"$COMMA"$light"$COMMA"$airplane_mode" 
+  echo $csv >> $output_file
+
+
+  
 done
+
+# fixing csv
+#
+sed -e 's/,,//g' $output_file > $HOME_DIR/1.csv
+sed -e 's/,$//g' $HOME_DIR/1.csv > $HOME_DIR/2.csv
+rm -rf $output_file $HOME/1.csv
+mv $HOME_DIR/2.csv $output_file
 
 echo "Data generation complete. $num_records records saved to $output_file. size = "$(ls -lh $output_file)
