@@ -1,11 +1,13 @@
 package com.vois.consumer.iot.events.health;
 
 import com.vois.consumer.iot.events.components.EventDataCarrier;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.boot.actuate.health.Health;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -13,19 +15,20 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@SpringJUnitConfig
+@RunWith(SpringJUnit4ClassRunner.class)
 public class ConsumerEventDataHealthIndicatorTest {
     @Mock
     private EventDataCarrier eventDataCarrier;
 
     private ConsumerEventDataHealthIndicator consumerEventDataHealthIndicator;
 
-    @BeforeEach
+    @Before
     public void setUp() {
         consumerEventDataHealthIndicator = new ConsumerEventDataHealthIndicator(eventDataCarrier);
     }
 
     @Test
-    @Ignore
     public void testHealthIndicator() {
         when(eventDataCarrier.getNumberOfRecordsInMemory()).thenReturn(3404983);
         Health health = consumerEventDataHealthIndicator.health();

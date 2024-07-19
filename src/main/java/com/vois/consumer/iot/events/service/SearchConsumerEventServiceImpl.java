@@ -21,8 +21,9 @@ public class SearchConsumerEventServiceImpl implements SearchConsumerEventServic
     @Override
     public Optional<ConsumerEvent> searchProductEvent(String productId , Optional<String> timestamp) {
         try {
-            return timestamp.map(s -> eventDataCarrier.lookup(productId , Long.parseLong(s))).or(() ->
-                    Optional.ofNullable(eventDataCarrier.lookup(productId , Instant.now().toEpochMilli())));
+            return timestamp.map(s -> eventDataCarrier.lookup(productId , Long.parseLong(s)))
+                    .or(() ->
+                            Optional.ofNullable(eventDataCarrier.lookup(productId , Instant.now().toEpochMilli())));
         } catch (NumberFormatException e) {
             log.error("SearchConsumerEventServiceImpl : NumberFormatException : timestamp = '{}', exception={}" , timestamp ,
                     e.getMessage());

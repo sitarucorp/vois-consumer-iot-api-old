@@ -59,7 +59,7 @@ curl -i http://localhost:8080/howru/health # please note here consumerEventData 
     "consumerEventData": {
       "status": "UP",
       "details": {
-        "collection_size": 0
+        "collection_size": 924
       }
     },
     "db": {

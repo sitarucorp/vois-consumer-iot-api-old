@@ -45,7 +45,7 @@ public class IotEventUtilTest {
     }
 
     @Test
-    public void testFindNearestTimestampEventId() {
+    public void pEventId() {
         Map<String, String> samples = Map.of(
                 "6900012" , "1582605077000" ,  //Tue Feb 25 2020 04:31:17.000
                 "6900013" , "1582605137000" ,   //Tue Feb 25 2020 04:32:17.000

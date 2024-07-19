@@ -55,7 +55,8 @@ public class EventDataCarrier {
         LinkedHashMap<String, String> filteredEvents = concurrentHashMaps[index].values().stream()
                 .filter(event -> event.getProductId().equals(productId))
                 .sorted(Comparator.comparing(ConsumerEvent::getDatetime))
-                .collect(Collectors.toMap(ConsumerEvent::getEventId , ConsumerEvent::getDatetime , (e , r) -> e , LinkedHashMap::new));
+                .collect(Collectors.toMap(ConsumerEvent::getEventId , ConsumerEvent::getDatetime ,
+                        (event , datetime) -> event , LinkedHashMap::new));
 
         Optional<String> eventId = IotEventUtil.findNearestTimestampEventId(filteredEvents , timestamp);
         return eventId.map(event -> concurrentHashMaps[index].get(event)).orElse(null);

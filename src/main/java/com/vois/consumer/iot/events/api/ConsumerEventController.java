@@ -67,7 +67,7 @@ public class ConsumerEventController {
             // searching the productId whether we have a data available or not
             Optional<ConsumerEvent> searchResult = searchConsumerEventService.searchProductEvent(productId , Optional.ofNullable(timestamp));
 
-            // if data available then return other wise an error response
+            // if data available then return otherwise an error response
             ResponseEntity<BasicResponse> response = searchResult.<ResponseEntity<BasicResponse>>map(consumerEvent -> ResponseEntity.ok(
                             ProductResponse.toProductResponse(consumerEvent))).
                     orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -96,11 +96,11 @@ public class ConsumerEventController {
             Optional<Integer> result = dataLoadingService.refreshDataFromFile(loadConsumerEventRequest.getFilepath());
 
             if(result.isPresent()) {
-                //response.addHeader("x-collection-size", String.valueOf(result.get()));
-                return ResponseEntity
+                ResponseEntity response = ResponseEntity
                         .ok(LoadConsumerEventResponse.builder().description(
                                 ResponseDescriptionMessageEnum.DATA_REFRESHED.getDescription()).build());
-            } else {
+                return response;
+                } else {
                 return ResponseEntity
                         .status(HttpStatus.NOT_FOUND)
                         .body(LoadConsumerEventResponse.builder().description(

@@ -7,12 +7,14 @@ import com.vois.consumer.iot.events.exceptions.ConsumerEventsResourceNotFoundExc
 import com.vois.consumer.iot.events.exceptions.NoConsumerEventSourceDataFileFoundException;
 import com.vois.consumer.iot.events.service.DataLoadingServiceImpl;
 import com.vois.consumer.iot.events.service.SearchConsumerEventServiceImpl;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -37,9 +39,12 @@ public class ConsumerEventControllerTest {
 
     private ConsumerEventController consumerEventController;
 
+    private HttpServletResponseWrapper response;
+
     @Before
     public void setup() {
         consumerEventController = new ConsumerEventController(dataLoadingService , searchConsumerEventService);
+        response = new HttpServletResponseWrapper(new MockHttpServletResponse());
     }
 
     @Test
