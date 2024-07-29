@@ -7,10 +7,10 @@ import org.springframework.lang.NonNull;
 @Getter
 public enum BatteryLifeEnum {
 
-    CRITICAL(new float[]{0.01F , 0.09F} , "Critical"),
-    LOW(new float[]{0.1F , 0.39F} , "Low"),
-    MEDIUM(new float[]{0.4F , 0.59F} , "Medium"),
-    HIGH(new float[]{0.6F , 0.97F} , "High"),
+    CRITICAL(new float[]{0.01F , 0.099F} , "Critical"),
+    LOW(new float[]{0.1F , 0.399F} , "Low"),
+    MEDIUM(new float[]{0.4F , 0.599F} , "Medium"),
+    HIGH(new float[]{0.6F , 0.979F} , "High"),
     FULL(new float[]{0.98F , 1.0F} , "Full"),
     UNKNOWN(new float[]{0.0F , 0.0F} , "Unknown"); // Adjusted range for UNKNOWN
 
