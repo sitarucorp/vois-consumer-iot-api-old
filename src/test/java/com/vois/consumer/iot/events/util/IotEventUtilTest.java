@@ -45,7 +45,7 @@ public class IotEventUtilTest {
     }
 
     @Test
-    public void pEventId() {
+    public void testNearestTimeReturnsAccurateTimeAfterNotBeforeIfAvailableBoth() {
         Map<String, String> samples = Map.of(
                 "6900012" , "1582605077000" ,  //Tue Feb 25 2020 04:31:17.000
                 "6900013" , "1582605137000" ,   //Tue Feb 25 2020 04:32:17.000
@@ -62,7 +62,7 @@ public class IotEventUtilTest {
                 1582305257000L).isPresent());  // Fri Feb 21 2020 17:14:17.000
         assertEquals("6900014" , IotEventUtil.findNearestTimestampEventId(new LinkedHashMap<>(samples)
                 , 1582305257000L).get());  //Sat Feb 22 2020 21:00:17.000
-
+        // (Here took a definition of nearest is after the time and so, Not returned 20th Feb 2020 but 22nd Feb 2020 21:00
     }
 
     @Test

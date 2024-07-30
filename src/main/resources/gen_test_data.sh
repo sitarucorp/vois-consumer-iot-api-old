@@ -1,29 +1,43 @@
 #! /bin/bash
 
-#
-#		\      //            ||`          .|';
-#		 \    //             ||           ||
-#		  \  //   .|''|, .|''||   '''|.  '||'  .|''|, `||''|,  .|''|,
-#		   \//    ||  || ||  ||  .|''||   ||   ||  ||  ||  ||  ||..||
-#		    /     `|..|' `|..||. `|..||. .||.  `|..|' .||  ||. `|...
-#
+##     ##  #######  ########     ###    ########  #######  ##    ## ########
+##     ## ##     ## ##     ##   ## ##   ##       ##     ## ###   ## ##
+##     ## ##     ## ##     ##  ##   ##  ##       ##     ## ####  ## ##
+##     ## ##     ## ##     ## ##     ## ######   ##     ## ## ## ## ######
+ ##   ##  ##     ## ##     ## ######### ##       ##     ## ##  #### ##
+  ## ##   ##     ## ##     ## ##     ## ##       ##     ## ##   ### ##
+   ###     #######  ########  ##     ## ##        #######  ##    ## ########
 
 # VoIS Demo Consumer Event IoT Input Data Generation Script
 # Script generates sample test records with N $(num_records) csv file to do the development local testing easy
 
-
 HOME_DIR=/g/vois/workspace/
 FILE="$HOME_DIR/sample_data.csv"
 
-cd $HOME_DIR
-[[ -e $FILE ]] && rm -rf $FILE || touch $FILE
+[[ ! -d $HOME_DIR ]] && echo "[ERROR] Houston, script execution abort, home directory '$HOME_DIR' does not exists, error code 31" && exit 31
 
-[ $(echo $?) -ne 0 ] && echo "script will unable to continue, check home director path is valid" && exit -1
+cd $HOME_DIR
+[[ -e $FILE ]] && rm -rf $FILE && echo "[INFO] All Ok, starting to generate the test data"
 
 num_records=100   # Number of records to generate
 output_file=$FILE
 
 #"DateTime" , "EventId" , "ProductId" , "Latitude" , "Longitude" , "Battery" , "Light" , "AirplaneMode"
+
+spinner()
+{
+    local pid=$!
+    local delay=0.75
+    local spinstr='|/-\'
+    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+        local temp=${spinstr#?}
+        printf " [%c]  " "$spinstr"
+        local spinstr=$temp${spinstr%"$temp"}
+        sleep $delay
+        printf "\b\b\b\b\b\b"
+    done
+    printf "    \b\b\b\b"
+}
 
 CONTENT=$(
     cat <<EOF
@@ -39,6 +53,10 @@ CONTENT=$(
 1582605437000,10010,WG11155800,45.5187,-12.52025,0.09,ON,OFF
 EOF
 )
+
+waiting (){
+  while true; do for X in '-' '/' '|' '\'; do echo -en "\b$X"; sleep 0.1; done; done
+}
 
 ONOFFS=("ON", "OFF")
 products=(WG 69)
@@ -102,7 +120,10 @@ generate_airplane_mode() {
   onoff
 }
 
+
 COMMA=","
+
+generate_data_for_me_please (){
 # Generate records
 for ((i=1; i<=$num_records; i++))
 do
@@ -114,19 +135,17 @@ do
   battery=$(generate_battery)
   light=$(generate_light)
   airplane_mode=$(generate_airplane_mode)
-
-  csv="$datetime"$COMMA"$event_id"$COMMA"$product_id"$COMMA"$latitude"$COMMA"$longitude"$COMMA"$battery"$COMMA"$light"$COMMA"$airplane_mode" 
+  csv="$datetime"$COMMA"$event_id"$COMMA"$product_id"$COMMA"$latitude"$COMMA"$longitude"$COMMA"$battery"$COMMA"$light"$COMMA"$airplane_mode"
   echo $csv >> $output_file
-
-
-  
 done
+}
+(generate_data_for_me_please) & spinner
 
 # fixing csv
-#
+
 sed -e 's/,,//g' $output_file > $HOME_DIR/1.csv
 sed -e 's/,$//g' $HOME_DIR/1.csv > $HOME_DIR/2.csv
 rm -rf $output_file $HOME/1.csv
 mv $HOME_DIR/2.csv $output_file
 
-echo "Data generation complete. $num_records records saved to $output_file. size = "$(ls -lh $output_file)
+echo "Data generation complete. $num_records records saved to $output_file. size = $(du --si $output_file | cut -f 1) with having total records : $(wc -l $output_file)"

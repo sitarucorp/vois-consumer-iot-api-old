@@ -16,7 +16,7 @@ public enum ProductIdNameEnum {
     }
 
     public static String getProductNameByProductId(@NonNull String productId) {
-        for(ProductIdNameEnum productIdNameEnum : ProductIdNameEnum.values()) {
+        for(ProductIdNameEnum productIdNameEnum : values()) {
             if(productId.startsWith(productIdNameEnum.productIdPrefix)) {
                 return productIdNameEnum.name();
             }

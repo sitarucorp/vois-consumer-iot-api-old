@@ -22,36 +22,43 @@ public class EventDataCarrier {
 
     private ConcurrentHashMap<String, ConsumerEvent>[] concurrentHashMaps;
 
+    private static final Integer LEADER = 0;
+    private static final Integer MEMBER = 1;
+
     private static boolean leader = true;
 
     public EventDataCarrier(ConcurrentHashMap<String, ConsumerEvent> leaderDataMap , ConcurrentHashMap<String, ConsumerEvent> memberDataMap) {
         this.concurrentHashMaps = new ConcurrentHashMap[2];
-        this.concurrentHashMaps[0] = leaderDataMap;
-        this.concurrentHashMaps[1] = memberDataMap;
+        this.concurrentHashMaps[LEADER] = leaderDataMap;
+        this.concurrentHashMaps[MEMBER] = memberDataMap;
         leader = true;
     }
 
     public void add(ConsumerEvent event) {
-        concurrentHashMaps[0].put(event.getEventId() , event);
+        concurrentHashMaps[LEADER].put(event.getEventId() , event);
         leader = true;
     }
 
     public void addAll(List<ConsumerEvent> events) {
-        concurrentHashMaps[0].putAll(events.stream().collect(
+        concurrentHashMaps[LEADER].putAll(events.stream().collect(
                 Collectors.toConcurrentMap(ConsumerEvent::getEventId , event -> event)));
         leader = true;
     }
 
     public void reset() {
         leader = false;
-        concurrentHashMaps[1] = new ConcurrentHashMap<>(concurrentHashMaps[0]);         // replacing the secondary
+        concurrentHashMaps[MEMBER] = new ConcurrentHashMap<>(concurrentHashMaps[0]);         // replacing the secondary
         log.warn("until the leader map get loaded, delegating content to member map to serve intermediate request until full data "
                 + "is loaded and leader is up again");
-        concurrentHashMaps[0].clear();  // leaning leader
+        clearLeader();
+    }
+
+    private synchronized void clearLeader(){
+        concurrentHashMaps[LEADER].clear();  // leaning leader
     }
 
     public ConsumerEvent lookup(String productId , long timestamp) {
-        int index = leader ? 0 : 1;
+        int index = leader ? LEADER : MEMBER;
         LinkedHashMap<String, String> filteredEvents = concurrentHashMaps[index].values().stream()
                 .filter(event -> event.getProductId().equals(productId))
                 .sorted(Comparator.comparing(ConsumerEvent::getDatetime))
@@ -62,7 +69,7 @@ public class EventDataCarrier {
         return eventId.map(event -> concurrentHashMaps[index].get(event)).orElse(null);
     }
 
-    public int getNumberOfRecordsInMemory() {
-        return concurrentHashMaps[leader ? 0 : 1].size();
+    public int[] getNumberOfRecordsInMemory() {
+        return new int[] {concurrentHashMaps[leader ? LEADER : MEMBER].size(), leader ? LEADER : MEMBER };
     }
 }

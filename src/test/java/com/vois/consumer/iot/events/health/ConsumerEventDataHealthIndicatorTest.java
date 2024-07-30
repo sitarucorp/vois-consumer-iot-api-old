@@ -30,10 +30,11 @@ public class ConsumerEventDataHealthIndicatorTest {
 
     @Test
     public void testHealthIndicator() {
-        when(eventDataCarrier.getNumberOfRecordsInMemory()).thenReturn(3404983);
+        when(eventDataCarrier.getNumberOfRecordsInMemory()).thenReturn(new int[]{3404983, 0});
         Health health = consumerEventDataHealthIndicator.health();
-        verify(eventDataCarrier, times(1)).getNumberOfRecordsInMemory();
+        verify(eventDataCarrier, times(2)).getNumberOfRecordsInMemory();
         assertTrue(health.getDetails().containsKey("collection_size"));
         assertEquals(3404983, health.getDetails().get("collection_size"));
+        assertEquals("leader", health.getDetails().get("hold_by"));
     }
 }

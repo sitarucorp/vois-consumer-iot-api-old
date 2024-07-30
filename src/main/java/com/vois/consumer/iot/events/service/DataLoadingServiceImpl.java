@@ -4,6 +4,7 @@ import com.vois.consumer.iot.events.components.EventDataCarrier;
 import com.vois.consumer.iot.events.dto.ConsumerEvent;
 import com.vois.consumer.iot.events.exceptions.InvalidCsvRecordException;
 import com.vois.consumer.iot.events.exceptions.NoConsumerEventSourceDataFileFoundException;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class DataLoadingServiceImpl implements DataLoadingService {
                 log.debug("InvalidCsvRecordException : {}, {}" , corruptRecordCount , e.getMessage());
             }
             log.info("Number of records available : " + eventDataCarrier.getNumberOfRecordsInMemory());
-            return eventDataCarrier.getNumberOfRecordsInMemory();
+            return eventDataCarrier.getNumberOfRecordsInMemory()[0];
         }
         return -1;
     }
@@ -82,7 +83,7 @@ public class DataLoadingServiceImpl implements DataLoadingService {
         return event;
     }
 
-    public static ConsumerEvent convert(String csvLine) throws StreamCorruptedException {
+    public static ConsumerEvent convert(@NonNull String csvLine) throws StreamCorruptedException {
         String[] csvRecord = csvLine.split(COMMA);
         log.debug("record:- {}" , csvLine);
 

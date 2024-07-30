@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
 
 @Data
@@ -38,8 +39,8 @@ public class ProductResponse implements BasicResponse {
                 .status(IotEventUtil.getStatusByLatLong(consumerEvent.getLatitude() , consumerEvent.getLongitude() , isAirplaneModeOn))
                 .battery(BatteryLifeEnum.getBatteryLife(consumerEvent.getBattery()))
                 .description(IotEventUtil.getDescriptionMessageOnSuccessfullIdentificationOfEvent(consumerEvent, isAirplaneModeOn))
-                .latitude(isAirplaneModeOn ? "" : consumerEvent.getLatitude())
-                .longitude(isAirplaneModeOn ? "" : consumerEvent.getLongitude())
+                .latitude(isAirplaneModeOn ? StringUtils.EMPTY : consumerEvent.getLatitude())
+                .longitude(isAirplaneModeOn ? StringUtils.EMPTY : consumerEvent.getLongitude())
                 // checking here on lat, long information
                 .build();
     }

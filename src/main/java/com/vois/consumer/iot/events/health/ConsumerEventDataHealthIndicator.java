@@ -17,6 +17,7 @@ public class ConsumerEventDataHealthIndicator implements HealthIndicator {
 
     @Override
     public Health health() {
-        return Health.up().withDetails(Map.of("collection_size" , eventDataCarrier.getNumberOfRecordsInMemory())).build();
+        return Health.up().withDetails(Map.of("collection_size" , eventDataCarrier.getNumberOfRecordsInMemory()[0],
+                "hold_by",eventDataCarrier.getNumberOfRecordsInMemory()[1] == 0 ? "leader" : "member")).build();
     }
 }

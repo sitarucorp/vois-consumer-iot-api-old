@@ -59,21 +59,15 @@ curl -i http://localhost:8080/howru/health # please note here consumerEventData 
     "consumerEventData": {
       "status": "UP",
       "details": {
+        "hold_by": "leader",
         "collection_size": 924
-      }
-    },
-    "db": {
-      "status": "UP",
-      "details": {
-        "database": "H2",
-        "validationQuery": "isValid()"
       }
     },
     "diskSpace": {
       "status": "UP",
       "details": {
         "total": 367001595904,
-        "free": 361332588544,
+        "free": 361346011136,
         "threshold": 10485760,
         "path": "G:\\vois\\workspace\\vois-consumer-iot\\vois-consumer-iot-api\\.",
         "exists": true
