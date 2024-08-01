@@ -30,7 +30,7 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
-        run: mvn -B package
+        run: mvn -B verify
 
       - name: Generate JaCoCo badge
         id: jacoco
