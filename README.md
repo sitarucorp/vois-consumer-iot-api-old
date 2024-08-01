@@ -4,7 +4,7 @@
 
 
 
-[![[Maven Build]](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/maven.yml/badge.svg)](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/maven.yml) [![Java Code Coverage](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml/badge.svg)](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml)
+[![[Maven Build]](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/maven.yml/badge.svg)](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/maven.yml) [![Java Code Coverage](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml/badge.svg)](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/deploy-jacoco-report-ghpages.yml)[![CodeQL Java](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/codeql-java-analysis.yml/badge.svg)](https://github.com/sitarucorp/vois-consumer-iot-api/actions/workflows/codeql-java-analysis.yml)
 
 
 ### Prerequisite 
