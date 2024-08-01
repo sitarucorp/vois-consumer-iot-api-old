@@ -24,21 +24,6 @@ output_file=$FILE
 
 #"DateTime" , "EventId" , "ProductId" , "Latitude" , "Longitude" , "Battery" , "Light" , "AirplaneMode"
 
-spinner()
-{
-    local pid=$!
-    local delay=0.75
-    local spinstr='|/-\'
-    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
-        local temp=${spinstr#?}
-        printf " [%c]  " "$spinstr"
-        local spinstr=$temp${spinstr%"$temp"}
-        sleep $delay
-        printf "\b\b\b\b\b\b"
-    done
-    printf "    \b\b\b\b"
-}
-
 CONTENT=$(
     cat <<EOF
 1582605077000,10001,WG11155638,51.5185,-0.1736,0.99,OFF,OFF
@@ -54,8 +39,8 @@ CONTENT=$(
 EOF
 )
 
-waiting (){
-  while true; do for X in '-' '/' '|' '\'; do echo -en "\b$X"; sleep 0.1; done; done
+waiting(){
+  while true; do for X in '\' '|' '/' '-'; do echo -en "\b$X"; sleep 0.2; done; done
 }
 
 ONOFFS=("ON", "OFF")
@@ -139,7 +124,7 @@ do
   echo $csv >> $output_file
 done
 }
-(generate_data_for_me_please) & spinner
+(generate_data_for_me_please) & waiting
 
 # fixing csv
 
