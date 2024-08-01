@@ -19,10 +19,25 @@ FILE="$HOME_DIR/sample_data.csv"
 cd $HOME_DIR
 [[ -e $FILE ]] && rm -rf $FILE && echo "[INFO] All Ok, starting to generate the test data"
 
-num_records=100   # Number of records to generate
+num_records=20   # Number of records to generate
 output_file=$FILE
 
 #"DateTime" , "EventId" , "ProductId" , "Latitude" , "Longitude" , "Battery" , "Light" , "AirplaneMode"
+
+spinner()
+{
+    local pid=$!
+    local delay=0.75
+    local spinstr='|/-\'
+    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+        local temp=${spinstr#?}
+        printf " [%c]  " "$spinstr"
+        local spinstr=$temp${spinstr%"$temp"}
+        sleep $delay
+        printf "\b\b\b\b\b\b"
+    done
+    printf "    \b\b\b\b"
+}
 
 CONTENT=$(
     cat <<EOF
@@ -39,8 +54,8 @@ CONTENT=$(
 EOF
 )
 
-waiting(){
-  while true; do for X in '\' '|' '/' '-'; do echo -en "\b$X"; sleep 0.2; done; done
+waiting (){
+  while true; do for X in '-' '/' '|' '\'; do echo -en "\b$X"; sleep 0.1; done; done
 }
 
 ONOFFS=("ON", "OFF")
@@ -124,7 +139,7 @@ do
   echo $csv >> $output_file
 done
 }
-(generate_data_for_me_please) & waiting
+(generate_data_for_me_please) & spinner
 
 # fixing csv
 
